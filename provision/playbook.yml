@@ -1,0 +1,16 @@
+- name: Deploy Fluentd
+  hosts: all
+  tasks:
+    - name: Download Fluentd install file
+      get_url:
+        url: https://toolbelt.treasuredata.com/sh/install-debian-stretch-td-agent2.sh
+        dest: /tmp/install-debian-stretch-td-agent2.sh
+        mode: 0700
+    - name: Install Fluentd
+      shell: /tmp/install-debian-stretch-td-agent2.sh
+      become: yes
+    - name: Fluentd Service Start
+      service: name=td-agent state=started enabled=yes
+    - name: Finish display message
+      debug:
+        msg: "Let's Fluentd!"
